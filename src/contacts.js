@@ -51,6 +51,33 @@ export async function deleteContact(id) {
   return false;
 }
 
+export async function getQueryParamValue(request) {
+  const url = new URL(request.url);
+  const params = new URLSearchParams(url.search);
+  let q = "";
+
+  if (params.has("q")) {
+    q = url.searchParams.get("q");
+    setSearchKeywords(q);
+  } else {
+    const searchKeywords = await getSearchKeywords();
+
+    if (searchKeywords) {
+      q = searchKeywords
+    }
+  }
+
+  return q;
+}
+
+async function getSearchKeywords() {
+  return await localforage.getItem("searchKeywords");
+}
+
+function setSearchKeywords(query) {
+  return localforage.setItem("searchKeywords", query);
+}
+
 function set(contacts) {
   return localforage.setItem("contacts", contacts);
 }

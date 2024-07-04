@@ -9,7 +9,8 @@ import {
 } from "react-router-dom";
 import { 
   getContacts, 
-  createContact
+  createContact, 
+  getQueryParamValue
 } from "../contacts";
 import { useEffect, useState } from "react";
 
@@ -19,8 +20,7 @@ export async function action() {
 }
 
 export async function loader({ request }) {
-  const url = new URL(request.url);
-  const q = url.searchParams.get("q") || "";
+  const q = await getQueryParamValue(request);
   const contacts = await getContacts(q);
   return { contacts, q };
 }
