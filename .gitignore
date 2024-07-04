@@ -140,4 +140,7 @@ dist
 *.sln
 *.sw?
 
+# Vite
+.vite/
+
 
